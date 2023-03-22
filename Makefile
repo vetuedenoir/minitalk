@@ -23,17 +23,17 @@ CLOBJ = $(patsubst $(CLSRCD)/%.c, $(CLOBJD)/%.o, $(ClSRC))
 SVSRCD = src_serveur
 SVOBJD = obj_serveur
 SVSRC = $(SVSRCD)/serveur.c
-SVOBJ = $(patsubst $(SVSRCD)%.c, $(SVOBJD)/%.o, $(SVSRC))
+SVOBJ = $(patsubst $(SVSRCD)/%.c, $(SVOBJD)/%.o, $(SVSRC))
 
-CNAME =	serveur
-SNAME = client
+CNAME =	client
+SNAME = serveur
 
 LIBPATH = libft/libft.a
 
 all: $(CNAME) $(SNAME)
 
 $(CNAME): $(CLOBJ) | lib
-	$(CC) $(CFLAGS) $(CLOBJ) $(LIBPATH) -o $@
+	$(CC) $(CFLAGS) $^ $(LIBPATH) -o $@
 
 $(SNAME): $(SVOBJ) | lib
 	$(CC) $(CFLAGS) $(SVOBJ) $(LIBPATH) -o $@
@@ -42,10 +42,10 @@ $(SNAME): $(SVOBJ) | lib
 lib:
 	@make -C ./libft
 
-$(CLOBJ)/%.o: $(CLSRCD)/.c | $(CLOBJD)
+$(CLOBJD)/%.o: $(CLSRCD)/%.c | $(CLOBJD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(SVOBJ)/.o: $(SVSRCD)/.c | $(SVOBJD)
+$(SVOBJD)/%.o: $(SVSRCD)/%.c | $(SVOBJD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(CLOBJD):

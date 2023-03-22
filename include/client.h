@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef
+#ifndef CLIENT_H
 # define CLIENT_H
 
-#include "../libft/libft.h"
+# include "../libft/libft.h"
 # include <stdio.h>
 # include <sys/types.h>
 # include <unistd.h>

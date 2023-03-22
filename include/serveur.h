@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef
+#ifndef SERVEUR_H
 # define SERVEUR_H
 
 # include "../libft/libft.h"
