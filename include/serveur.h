@@ -19,7 +19,10 @@
 # include <unistd.h>
 # include <signal.h>
 
-
-
+typedef struct s_ping
+{
+	int	pid;
+	int	signal;
+}		t_ping;
 
 #endif

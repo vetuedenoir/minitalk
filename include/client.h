@@ -19,5 +19,6 @@
 # include <unistd.h>
 # include <signal.h>
 
+void	test(void);
 
 #endif
