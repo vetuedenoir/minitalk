@@ -16,8 +16,12 @@ int	g_pidx = 0;
 
 void	reponse(int num, siginfo_t *info, void *x)
 {
+	static int	pid;
+
+	if (pid == 0)
+		pid = g_pidx;
 	(void) x;
-	if (info->si_pid != g_pidx)
+	if (info->si_pid != pid)
 		return ;
 	if (num == SIGUSR1)
 		g_pidx = 0;
