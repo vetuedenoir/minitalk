@@ -29,61 +29,46 @@ void	reponse(int num, siginfo_t *info, void *x)
 		g_pidx = -1;
 }
 
-void	wait(void)
+void	ft_bitgo(int pid, char c, int i)
 {
-	int	t;
+	int	r;
 
-	t = 1;
-	while (g_pidx == -1)
+	r = c >> i;
+	if (r & 1)
 	{
-		if (t == 1)
-			write(1, "En attente du serveur ", 22);
-		sleep(t - (t - 1));
-		t++;
-		write(1, ". ", 2);
-		if (t == 30)
+		if (kill(pid, SIGUSR1))
 		{
-			write(1, "\nLe serveur ne repond pas\n", 26);
+			write(1, "Wrong PID\n", 10);
+			exit (0);
+		}
+	}
+	else
+	{
+		if (kill(pid, SIGUSR2))
+		{
+			write(1, "Wrong PID\n", 10);
 			exit (0);
 		}
 	}
 }
 
-
 void	ft_one_by_one(int pid, char c)
 {
 	int	i;
-	int	x;
-	int	r;
 
 	i = 7;
-	x = 0;
 	while (i >= 0)
 	{
 		g_pidx = pid;
-		r = c >> i;
-		if (r & 1)	// si le bit est a 1
-		{
-			if (kill(pid, SIGUSR1))
-			{
-				write(1, "Wrong PID\n", 10);
-				exit (0);
-			}
-		}
-		else			// si le bit est a 0
-		{
-			if (kill(pid, SIGUSR2))
-			{
-				write(1, "Wrong PID\n", 10);
-				exit (0);
-			}
-		}
+		ft_bitgo(pid, c, i);
 		i--;
 		while (g_pidx == pid)
 			;
 		if (g_pidx == -1)
-			wait();
-		//ft_printf("pidx = %d, ", g_pidx);
+		{
+			write(1, "Server unavailable\n", 19);
+			exit (0);
+		}	
 	}
 }
 
@@ -98,14 +83,13 @@ void	ft_send(int pid, char *str)
 		i++;
 	}
 	ft_one_by_one(pid, str[i]);
-	ft_putstr_fd("tout envoyer", 1);
-	
+	ft_putstr_fd("Everything send\n", 1);
 }
 
 int	main(int argc, char *argv[])
 {
-	int	pid;
-	struct	sigaction ba;
+	int					pid;
+	struct sigaction	ba;
 
 	if (argc != 3)
 		exit (0);

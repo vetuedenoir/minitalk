@@ -19,6 +19,9 @@
 # include <unistd.h>
 # include <signal.h>
 
-void	test(void);
+void	ft_send(int pid, char *str);
+void	ft_one_by_one(int pid, char c);
+void	ft_bitgo(int pid, char c, int i);
+void	reponse(int num, siginfo_t *info, void *x);
 
 #endif

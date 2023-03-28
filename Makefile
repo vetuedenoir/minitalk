@@ -5,65 +5,45 @@
 #                                                     +:+ +:+         +:+      #
 #    By: kscordel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/03/21 13:18:04 by kscordel          #+#    #+#              #
-#    Updated: 2023/03/21 16:20:08 by kscordel         ###   ########.fr        #
+#    Created: 2023/03/28 17:30:54 by kscordel          #+#    #+#              #
+#    Updated: 2023/03/28 17:54:52 by kscordel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror
+RM = rm -f
 
-# SOURCE CLIENT
-CLSRCD = src_client
-CLOBJD = obj_client
-#CLSRC = $(CLSRCD)/client.c $(CLSRCD)/test.c \
-CLSRC = (wildcard $(CLSRCD)/*.c)
-CLOBJ = $(patsubst $(CLSRCD)/%.c, $(CLOBJD)/%.o, $(ClSRC))
+C_SRC_DIR = src_client/
+C_SRC = $(addprefix $(C_SRC_DIR), client.c)
+C_OBJ = $(C_SRC:.c=.o)
 
-# SOURCE SERVEUR
-SVSRCD = src_serveur
-SVOBJD = obj_serveur
-SVSRC = $(SVSRCD)/serveur.c \
-SVOBJ = $(patsubst $(SVSRCD)/%.c, $(SVOBJD)/%.o, $(SVSRC))
+S_SRC_DIR = src_serveur/
+S_SRC = $(addprefix $(S_SRC_DIR), serveur.c check_id.c)
+S_OBJ = $(S_SRC:.c=.o)
 
-CNAME =	client
-SNAME = serveur
+C_NAME = client
+S_NAME = serveur
 
 LIBPATH = libft/libft.a
 
-all: $(CNAME)
+all:	$(C_NAME) $(S_NAME)
 
-$(CNAME): $(CLOBJ) | lib
-	$(CC) $(CFLAGS) $^ $(LIBPATH) -o $@
+$(C_NAME):	$(C_OBJ) | lib
+		$(CC) $(CFLAGS) -o $@ $(C_OBJ) $(LIBPATH) 
 
-$(SNAME): $(SVOBJ) | lib
-	$(CC) $(CFLAGS) $(SVOBJ) $(LIBPATH) -o $@
-
-$(CLOBJD)/%.o: $(CLSRCD)/%.c | $(CLOBJD)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(SVOBJD)/%.o: $(SVSRCD)/%.c | $(SVOBJD)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(CLOBJD):
-	mkdir -p $(CLOBJD)
-
-$(SVOBJD):
-	mkdir -p $(SVOBJD)
+$(S_NAME):	$(S_OBJ) | lib
+		$(CC) $(CFLAGS) -o $@ $(S_OBJ) $(LIBPATH)
 
 lib:
 	@make -C ./libft
 
 clean:
-	rm -rf $(CLOBJD)
-	rm -rf $(SVOBJD)
-	make clean -C ./libft
+		$(RM) $(C_OBJ) $(S_OBJ)
 
-fclean: clean
-	rm -f $(CNAME)
-	rm -f $(SNAME)
-	make fclean -C ./libft
+fclean:	clean
+		 $(RM) $(C_NAME) $(S_NAME)
+re:	fclean all
 
-re: fclean all
-
-.PHONY: all lib clean fclean re
+.PHONY: all clean fclean re
+	
