@@ -18,6 +18,11 @@ char	*ft_resize(char **str, int *size, char c, int *i)
 
 	*size = *size + 100;
 	buf = malloc(sizeof(char) * (*size + 1));
+	if (buf == NULL)
+	{
+		free(*str);
+		return (NULL);
+	}
 	ft_memcpy(buf, *str, *i);
 	free(*str);
 	*str = NULL;
@@ -46,7 +51,7 @@ int	ft_putsline(char *str, int	*i, int	*size, char c)
 		return (0);
 }
 
-int	ft_insert(char c)
+int	ft_insert(char c, int pid)
 {
 	static char	*str;
 	static int	i;
@@ -54,10 +59,16 @@ int	ft_insert(char c)
 
 	if (str == NULL)
 		str = malloc(sizeof(char) * (size + 1));
+	if (str == NULL)
+		ft_erreur(pid);
 	if (i < size)
 		str[i++] = c;
 	else
+	{
 		str = ft_resize(&str, &size, c, &i);
+		if (str == NULL)
+			ft_erreur(pid);
+	}
 	if (c == '\n' || c == '\0')
 	{
 		c = ft_putsline(str, &i, &size, c);
@@ -65,8 +76,7 @@ int	ft_insert(char c)
 		str = NULL;
 		return ((int)c);
 	}
-	else
-		return (1);
+	return (1);
 }
 
 void	ft_reception(int num, siginfo_t *info, void *p)
@@ -86,7 +96,7 @@ void	ft_reception(int num, siginfo_t *info, void *p)
 	i++;
 	if (i == 8)
 	{
-		c = ft_insert(c);
+		c = ft_insert(c, pidx);
 		if (c == 0)
 			pidx = 0;
 		c = 0xFF;

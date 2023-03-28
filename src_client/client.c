@@ -52,7 +52,7 @@ void	ft_bitgo(int pid, char c, int i)
 	}
 }
 
-void	ft_one_by_one(int pid, char c)
+void	ft_one_by_one(int pid, char c, int index)
 {
 	int	i;
 
@@ -66,6 +66,8 @@ void	ft_one_by_one(int pid, char c)
 			;
 		if (g_pidx == -1)
 		{
+			if ((index == 0 && i < 7) || index > 0)
+				write(1, "Serveur crash\n", 14);
 			write(1, "Server unavailable\n", 19);
 			exit (0);
 		}	
@@ -79,10 +81,10 @@ void	ft_send(int pid, char *str)
 	i = 0;
 	while (str[i])
 	{
-		ft_one_by_one(pid, str[i]);
+		ft_one_by_one(pid, str[i], i);
 		i++;
 	}
-	ft_one_by_one(pid, str[i]);
+	ft_one_by_one(pid, str[i], i);
 	ft_putstr_fd("Everything send\n", 1);
 }
 
