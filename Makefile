@@ -40,9 +40,12 @@ lib:
 
 clean:
 		$(RM) $(C_OBJ) $(S_OBJ)
+		@make clean -C ./libft
 
 fclean:	clean
-		 $(RM) $(C_NAME) $(S_NAME)
+		$(RM) $(C_NAME) $(S_NAME)
+		@make fclean -C ./libft
+
 re:	fclean all
 
 .PHONY: all clean fclean re
