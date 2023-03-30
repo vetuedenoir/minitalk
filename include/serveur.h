@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <signal.h>
 
-int	    ft_erreur(int pid);
+int		ft_erreur(int pid);
 void	ft_check_id(int *pidx, int sipid);
 char	*ft_resize(char **str, int *size, char c, int *i);
 int		ft_putsline(char *str, int *i, int *size, char c);
