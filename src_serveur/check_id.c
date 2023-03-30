@@ -12,10 +12,10 @@
 
 #include "../include/serveur.h"
 
-void	ft_erreur(int pid)
+int	ft_erreur(int pid)
 {
 	kill(pid, SIGUSR2);
-	exit (0);
+	return (0);
 }
 
 void	ft_check_id(int *pidx, int sipid)

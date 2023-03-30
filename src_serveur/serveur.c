@@ -60,14 +60,14 @@ int	ft_insert(char c, int pid)
 	if (str == NULL)
 		str = malloc(sizeof(char) * (size + 1));
 	if (str == NULL)
-		ft_erreur(pid);
+		return (ft_erreur(pid));
 	if (i < size)
 		str[i++] = c;
 	else
 	{
 		str = ft_resize(&str, &size, c, &i);
 		if (str == NULL)
-			ft_erreur(pid);
+			return (ft_erreur(pid));
 	}
 	if (c == '\n' || c == '\0')
 	{
