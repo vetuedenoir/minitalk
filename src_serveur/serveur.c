@@ -79,6 +79,22 @@ int	ft_insert(char c, int pid)
 	return (1);
 }
 
+/*La fonction utilise des variables statiques pour stocker
+les données qu'elle reçoit progressivement,
+elle utilise également la fonction ft_check_id pour vérifier
+si le signal provient bien du client dont le PID est stocké
+dans la variable pidx.
+Si le signal est SIGUSR2, cela signifie que le bit courant doit être mis à 0.
+Pour cela, on utilise l'opérateur de bit à bit XOR ^
+pour inverser le bit courant de c.
+Le masque 0x80 >> i permet de sélectionner le bit courant.
+Si le signal est SIGUSR1, cela signifie que le bit courant doit être mis à 1.
+Pour cela, on utilise l'opérateur de bit à bit OR |
+pour ajouter un 1 au bit courant de c.
+Le masque 0x80 >> i permet de sélectionner le bit courant.
+La variable c est un buffer qui stocke les bits reçus
+avant de les concaténer en octets complets.*/
+
 void	ft_reception(int num, siginfo_t *info, void *p)
 {
 	static int	i;
@@ -104,6 +120,19 @@ void	ft_reception(int num, siginfo_t *info, void *p)
 	}
 	kill(info->si_pid, SIGUSR1);
 }
+
+/*Ce programme est un serveur qui recoit une chaine de caractere et l affiche.
+Il écoute en permanence les signaux SIGUSR1 et SIGUSR2
+en utilisant la fonction sigaction().
+Lorsqu'il reçoit un signal, il détermine l'ID du processus expéditeur
+grâce à la structure siginfo_t et appelle la fonction ft_insert().
+ft_insert() insère le caractère dans une chaîne de caractères
+allouée dynamiquement en utilisant la fonction ft_resize()
+pour agrandir la taille de la chaîne si nécessaire.
+Lorsqu'un caractère de fin de ligne est reçu,
+ft_insert() affiche la chaîne de caractères et renvoie 0
+pour indiquer la fin de la transmission.
+La communication est terminée lorsque le client reçoit cette valeur de retour*/
 
 int	main(void)
 {
