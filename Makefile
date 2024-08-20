@@ -23,7 +23,7 @@ S_SRC = $(addprefix $(S_SRC_DIR), serveur.c check_id.c)
 S_OBJ = $(S_SRC:.c=.o)
 
 C_NAME = client
-S_NAME = serveur
+S_NAME = server
 
 LIBPATH = libft/libft.a
 
