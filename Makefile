@@ -18,7 +18,7 @@ C_SRC_DIR = src_client/
 C_SRC = $(addprefix $(C_SRC_DIR), client.c)
 C_OBJ = $(C_SRC:.c=.o)
 
-S_SRC_DIR = src_serveur/
+S_SRC_DIR = src_server/
 S_SRC = $(addprefix $(S_SRC_DIR), serveur.c check_id.c)
 S_OBJ = $(S_SRC:.c=.o)
 
@@ -49,4 +49,4 @@ fclean:	clean
 re:	fclean all
 
 .PHONY: all clean fclean re
-	
+
